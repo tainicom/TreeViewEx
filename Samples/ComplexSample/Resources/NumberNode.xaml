@@ -1,0 +1,45 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=TreeViewEx"
+        xmlns:Model="clr-namespace:TreeViewEx.ComplexSample.Model"
+        xmlns:Number="clr-namespace:TreeViewEx.ComplexSample.NumberStuff">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/ComplexSample;component/Resources/NodeBase.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Number:NumberConverter x:Key="numberConverter" />
+    
+    <Style BasedOn="{StaticResource nodeBaseStyle}" x:Key="numberNodeStyle"
+            TargetType="{x:Type Controls:TreeViewExItem}">
+        <Setter Property="IsEditable" Value="True" />
+        <Setter Property="TemplateEdit">
+            <Setter.Value>
+                <DataTemplate>
+                    <Controls:EditTextBox>
+                        <Controls:EditTextBox.Text>
+                            <Binding Path="Number" Converter="{StaticResource numberConverter}"
+                                    NotifyOnValidationError="True" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <Number:NumberValidation />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </Controls:EditTextBox.Text>
+                    </Controls:EditTextBox>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ContextMenu">
+            <Setter.Value>
+                <ContextMenu>
+                    <MenuItem Header="CountUp" Command="{Binding CountUp}"/>
+                    <MenuItem Header="CountDown" Command="{Binding CountDown}" />
+                </ContextMenu>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+	<Controls:HierarchicalDataTemplateEx ItemsSource="{Binding Children}" DataType="{x:Type Model:NumberNode}">
+        <TextBlock Text="{Binding Number}" />
+	</Controls:HierarchicalDataTemplateEx>
+
+</ResourceDictionary>

@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=TreeViewEx"
+        xmlns:Model="clr-namespace:TreeViewEx.ComplexSample.Model">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/ComplexSample;component/Resources/NodeBase.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style BasedOn="{StaticResource nodeBaseStyle}" x:Key="simpleNodeStyle" TargetType="{x:Type Controls:TreeViewExItem}">
+        <Setter Property="IsEditable" Value="False" />
+    </Style>
+
+	<Controls:HierarchicalDataTemplateEx ItemsSource="{Binding Children}" DataType="{x:Type Model:SimpleNode}">
+        <TextBlock Text="{Binding Name}" />
+	</Controls:HierarchicalDataTemplateEx>
+
+</ResourceDictionary>

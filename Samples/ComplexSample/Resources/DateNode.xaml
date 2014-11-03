@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=TreeViewEx"
+        xmlns:Model="clr-namespace:TreeViewEx.ComplexSample.Model"
+        xmlns:Date="clr-namespace:TreeViewEx.ComplexSample.DateStuff">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/ComplexSample;component/Resources/NodeBase.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
+    <Date:DateConverter x:Key="dateConverter" />
+    
+    <Style BasedOn="{StaticResource nodeBaseStyle}" x:Key="dateNodeStyle"
+            TargetType="{x:Type Controls:TreeViewExItem}">
+        <Setter Property="IsEditable" Value="True" />
+        <Setter Property="TemplateEdit">
+            <Setter.Value>
+                <DataTemplate>
+                    <Controls:EditTextBox>
+                        <Controls:EditTextBox.Text>
+                            <Binding Path="Date" Converter="{StaticResource dateConverter}"
+                                    NotifyOnValidationError="True" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <Date:DateValidation />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </Controls:EditTextBox.Text>
+                    </Controls:EditTextBox>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+	<Controls:HierarchicalDataTemplateEx ItemsSource="{Binding Children}" DataType="{x:Type Model:DateNode}">
+        <TextBlock Text="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" />
+	</Controls:HierarchicalDataTemplateEx>
+
+</ResourceDictionary>

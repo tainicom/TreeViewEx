@@ -1,0 +1,85 @@
+﻿<Window x:Class="W7StyleSample.MainWindow"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=TreeViewEx"
+      xmlns:Core="clr-namespace:System.Windows.Core;assembly=TreeViewEx"
+      xmlns:Model="clr-namespace:W7StyleSample.Model" Title="MainWindow" Height="300" Width="400"
+      AutomationProperties.Name="TestApp2Window">
+	<Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="PathsAndGradients.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type Model:Node}">
+                <TextBlock Text="{Binding Name}" />
+            </HierarchicalDataTemplate>
+
+            <Style TargetType="{x:Type Controls:TreeViewExItem}">
+                <Setter Property="CanDrop" Value="{Controls:MethodBinding CanDrop}" />
+                <Setter Property="CanDropFormat" Value="{Controls:MethodBinding CanDropFormat}" />
+                <Setter Property="DropAction" Value="{Controls:MethodBinding OnDrop}" />
+
+                <Setter Property="CanDrag" Value="{Controls:MethodBinding CanDrag}" />
+                <Setter Property="Drag" Value="{Controls:MethodBinding OnDrag}" />
+
+                <Setter Property="CanInsertFormat" Value="{Controls:MethodBinding CanInsertFormat}" />
+                <Setter Property="CanInsert" Value="{Controls:MethodBinding CanInsert}" />
+                <Setter Property="Insert" Value="{Controls:MethodBinding OnInsert}" />
+            </Style>
+            
+            <Style TargetType="{x:Type Controls:TreeViewEx}"       BasedOn="{StaticResource {x:Type Controls:TreeViewEx}}">
+                <Setter Property="InsertionMarkerBrush" Value="DarkGray" />
+            </Style>
+            
+            <DataTemplate x:Key="dragTemplate">
+                <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="3" Background="WhiteSmoke">
+                    <Border.RenderTransform>
+                        <TranslateTransform X="20" Y="20"/>
+                    </Border.RenderTransform>
+                    <ContentPresenter x:Name="content">
+                        <ContentPresenter.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <ContentControl Content="{StaticResource forbiddenIcon}" Width="16" Height="16" VerticalContentAlignment="Center" Margin="4,1,0,2"/>
+                                    <TextBlock Text="Drop is not allowed here." Margin="-2,2,0,2"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ContentPresenter.ContentTemplate>
+                    </ContentPresenter>
+                </Border>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding CanInsert}" Value="True">
+                        <Setter Property="ContentTemplate" TargetName="content" >
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <ContentControl Content="{StaticResource insertIcon}" Width="30" Height="20" VerticalContentAlignment="Center" Margin="4,5,0,2"/>
+                                        <TextBlock Text="{Binding InsertIndex, StringFormat='Inserting at index {0}.'}" Margin="-12,2,2,2"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding CanDrop}" Value="True">
+                        <Setter Property="ContentTemplate" TargetName="content">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <ContentControl Content="{StaticResource allowedIcon}" Width="30" Height="20" VerticalContentAlignment="Center" Margin="4,5,0,0"/>
+                                        <TextBlock Text="Can drop here." Margin="-12,2,2,2"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+        </ResourceDictionary>
+	</Window.Resources>
+
+	<DockPanel>
+		<Controls:TreeViewEx AutomationProperties.Name="TestApp2Tree" InsertionMarkerBrush="DarkGray"
+            ItemsSource="{Binding Path=Children}" DragTemplate="{DynamicResource dragTemplate}"/>
+        <TextBlock Margin="5" Text="Drop Me In Tree!" PreviewMouseDown="OnMouseDown" PreviewMouseMove="OnMouseMove" />
+    </DockPanel>
+</Window>
