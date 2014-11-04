@@ -264,6 +264,14 @@ namespace System.Windows.Controls
         #endregion
 
         #region Methods
+
+        public void BringIntoView(object item)
+        {
+            UpdateLayout();
+            TreeViewExItem tvei = GetTreeViewItemFor(item);
+            tvei.BringIntoView();
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -531,6 +539,7 @@ namespace System.Windows.Controls
                     foreach (var item in GetTreeViewItemsFor(e.NewItems))
                     {
                         item.IsSelected = true;
+                        item.BringIntoView();
 
                         last = item.DataContext;
                     }

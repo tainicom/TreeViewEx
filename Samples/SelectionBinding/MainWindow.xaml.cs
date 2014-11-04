@@ -10,7 +10,7 @@
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow: Window
     {
         #region Constructors and Destructors
 
@@ -49,6 +49,18 @@
             DataContext = firstNode;
 
             InitializeComponent();
+
+            this.KeyDown += MainWindow_KeyDown;
+        }
+
+        void MainWindow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if(e.Key==System.Windows.Input.Key.Space)
+            {
+                var newNode = new Node { Name = "elementNew" };
+                firstNode.Children.Add(newNode);                
+                leftTree.BringIntoView(newNode);
+            }
         }
 
         #endregion
