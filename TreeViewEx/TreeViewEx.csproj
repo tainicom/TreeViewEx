@@ -80,6 +80,8 @@
   <ItemGroup>
     <Compile Include="Automation\Peers\TreeViewExAutomationPeer.cs" />
     <Compile Include="Automation\Peers\TreeViewExItemAutomationPeer.cs" />
+    <Compile Include="Controls\DragNDrop\DragParameters.cs" />
+    <Compile Include="Controls\DragNDrop\DropParameters.cs" />
     <Compile Include="Controls\VerticalArea.cs" />
     <Compile Include="Controls\AutoScroller.cs" />
     <Compile Include="Controls\BoolToVisibilityConverterHidden.cs" />
@@ -95,7 +97,6 @@
     <Compile Include="Controls\SizesCache.cs" />
     <Compile Include="Controls\TreeViewElementFinder.cs" />
     <Compile Include="Controls\TreeViewExItem.Brushes.cs" />
-    <Compile Include="Controls\TreeViewExItem.DragNDropProperties.cs" />
     <Compile Include="Controls\DragNDrop\CanInsertReturn.cs" />
     <Compile Include="Controls\Constants.cs" />
     <Compile Include="Controls\DragNDrop\InsertAdorner.cs" />

@@ -63,18 +63,6 @@ namespace System.Windows.Controls.DragNDrop
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
-        //public int InsertIndex
-        //{
-        //    get { return insertIndex; }
-        //    set
-        //    {
-        //        if (insertIndex != value)
-        //        {
-        //            insertIndex = value;
-        //            RaisePropertyChanged("InsertIndex");
-        //        }
-        //    }
-        //}
+                
     }
 }

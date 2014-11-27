@@ -28,6 +28,13 @@ namespace System.Windows.Controls
         internal VerticalArea realizationSpace = new VerticalArea();
         internal SizesCache cachedSizes = new SizesCache();
 
+
+        public static DependencyProperty DragCommandProperty = DependencyProperty.Register(
+            "DragCommand", typeof(ICommand), typeof(TreeViewEx));
+
+        public static DependencyProperty DropCommandProperty = DependencyProperty.Register(
+            "DropCommand", typeof(ICommand), typeof(TreeViewEx));
+        
         public static readonly DependencyProperty DragTemplateProperty = DependencyProperty.Register(
            "DragTemplate", typeof(DataTemplate), typeof(TreeViewEx), new PropertyMetadata(null));
 
@@ -162,6 +169,16 @@ namespace System.Windows.Controls
             {
                 SetValue(InsertionMarkerBrushProperty, value);
             }
+        }
+        public ICommand DragCommand
+        {
+            get { return (ICommand)GetValue(DragCommandProperty); }
+            set { SetValue(DragCommandProperty, value); }        
+        }
+        public ICommand DropCommand
+        {
+            get { return (ICommand)GetValue(DropCommandProperty); }
+            set { SetValue(DropCommandProperty, value); }
         }
 
         public DataTemplate DragTemplate

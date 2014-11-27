@@ -93,8 +93,10 @@ namespace System.Windows.Controls.DragNDrop
 
             DragContent dragData = new DragContent();
             foreach (var item in draggableItems)
-            {
-                dragData.Add(item.Drag());
+            {                
+                DragParameters dragParameters = new DragParameters(item);
+                TreeView.DragCommand.Execute(dragParameters);
+                dragData.Add(dragParameters.DraggedObject);
             }
 
             DragStart(dragData);
@@ -205,15 +207,8 @@ namespace System.Windows.Controls.DragNDrop
         private CanInsertReturn CanInsert(TreeViewExItem item, Func<UIElement, Point> getPositionDelegate, IDataObject data)
         {
             TreeViewExItem parentItem = item.ParentTreeViewItem;
-            if (parentItem == null)
-            {
-                return null;
-            }
-
-            if (parentItem.Insert == null)
-            {
-                return null;
-            }
+            if (parentItem == null) return null;
+            if (TreeView.DropCommand == null) return null;
 
             // get position over element
             Size size = item.RenderSize;
@@ -245,43 +240,21 @@ namespace System.Windows.Controls.DragNDrop
                 index++;
             }
 
-            // ask for all formats, if insertion is allowed
-            foreach (string f in data.GetFormats())
+            // ask if insertion is allowed
+            if (TreeView.DropCommand.CanExecute(new DropParameters(parentItem, data, index)))
             {
-                if (parentItem.CanInsertFormat == null || parentItem.CanInsertFormat(index, f))
-                {
-                    if (parentItem.CanInsert == null || parentItem.CanInsert(index, data.GetData(f)))
-                    {
-                        return new CanInsertReturn(f, index, !after); ;
-                    }
-                }
+                return new CanInsertReturn("", index, !after);
             }
 
             return null;
         }
-
-
-        private string CanDrop(TreeViewExItem item, IDataObject data)
+        
+        private bool CanDrop(TreeViewExItem item, IDataObject data)
         {
-            if (item == null) return null;
-            if (item.DropAction == null) return null;
-
-            foreach (string f in data.GetFormats())
-            {
-                if (item.CanDropFormat == null || item.CanDropFormat(f))
-                {
-                    if (item.CanDrop == null || item.CanDrop(data.GetData(f)))
-                    {
-                        return f;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-
-            return null;
+            if (TreeView.DropCommand == null) return false;
+            if (item == null) return false;
+            
+            return TreeView.DropCommand.CanExecute(new DropParameters(item, data));
         }
 
         private void OnDrop(object sender, DragEventArgs e)
@@ -297,19 +270,16 @@ namespace System.Windows.Controls.DragNDrop
             if (canInsertReturn != null)
             {
                 // insert and return
-
-                item.ParentTreeViewItem.Insert(canInsertReturn.Index, e.Data.GetData(canInsertReturn.Format));
+                TreeView.DropCommand.Execute(new DropParameters(item.ParentTreeViewItem, e.Data, canInsertReturn.Index));
                 CleanUpAdorners();
                 return;
             }
 
             // check if drop is possible
-            string dropformat = CanDrop(item, e.Data);
-            if (dropformat != null)
+            if (CanDrop(item, e.Data))
             {
                 // drop and return
-                object data = e.Data.GetData(dropformat);
-                item.DropAction(data);
+                TreeView.DropCommand.Execute(new DropParameters(item, e.Data));
             }
 
             CleanUpAdorners();
@@ -379,7 +349,7 @@ namespace System.Windows.Controls.DragNDrop
                     insertAdorner = null;
                 }
 
-                dragAdorner.Content.CanDrop = CanDrop(itemMouseIsOver, e.Data) != null;
+                dragAdorner.Content.CanDrop = CanDrop(itemMouseIsOver, e.Data);
                 if (itemMouseIsOver != null)
                 {
                     itemMouseIsOver.IsCurrentDropTarget = true;
@@ -406,15 +376,17 @@ namespace System.Windows.Controls.DragNDrop
 
         private List<TreeViewExItem> GetDraggableItems(Point mousePositionRelativeToTree)
         {
+            if (TreeView.DragCommand == null) return new List<TreeViewExItem>();
+            
             List<TreeViewExItem> items = TreeView.GetTreeViewItemsFor(TreeView.SelectedItems).ToList();
             TreeViewExItem itemUnderMouse = GetTreeViewItemUnderMouse(mousePositionRelativeToTree);
             if(itemUnderMouse == null) return new List<TreeViewExItem>();
-
+                
             if (items.Contains(itemUnderMouse))
             {
                 foreach (var item in items)
                 {
-                    if (item.Drag == null || item.CanDrag == null || !item.CanDrag())
+                    if (!TreeView.DragCommand.CanExecute(new DragParameters(item)))
                     {
                         // if one item is not draggable, nothing can be dragged
                         return new List<TreeViewExItem>();
@@ -428,13 +400,8 @@ namespace System.Windows.Controls.DragNDrop
             var contentPresenter = itemUnderMouse.Template.FindName("content", itemUnderMouse) as ContentPresenter;
             if (contentPresenter.IsMouseOver)
             {
-                if (itemUnderMouse.Drag == null || itemUnderMouse.CanDrag == null || !itemUnderMouse.CanDrag())
-                {
-                    // if one item is not draggable, nothing can be dragged
-                    return new List<TreeViewExItem>();
-                }
-
-                return new List<TreeViewExItem> { itemUnderMouse };
+                if(TreeView.DragCommand.CanExecute(new DragParameters(itemUnderMouse)))
+                    return new List<TreeViewExItem> { itemUnderMouse };
             }
 
             return new List<TreeViewExItem>();
