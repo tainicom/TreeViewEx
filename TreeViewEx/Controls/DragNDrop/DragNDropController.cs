@@ -206,44 +206,48 @@ namespace System.Windows.Controls.DragNDrop
 
         private CanInsertReturn CanInsert(TreeViewExItem item, Func<UIElement, Point> getPositionDelegate, IDataObject data)
         {
-            TreeViewExItem parentItem = item.ParentTreeViewItem;
-            if (parentItem == null) return null;
             if (TreeView.DropCommand == null) return null;
 
-            // get position over element
-            Size size = item.RenderSize;
-            Point positionRelativeToItem = getPositionDelegate(item);
-
-            // decide whether to insert before or after item
-            bool after = true;
-            if (positionRelativeToItem.Y > dragAreaSize)
+            if (item == null)
             {
-                if (size.Height - positionRelativeToItem.Y > dragAreaSize)
-                {
-                    return null;
-                }
+                return null;
             }
             else
             {
-                after = false;
-            }
+                // get position over element
+                Size size = item.RenderSize;
+                Point positionRelativeToItem = getPositionDelegate(item);
 
-            // get index, where to insert
-            int index = parentItem.ItemContainerGenerator.IndexFromContainer(item);
-            if (after)
-            {
-                // dont allow insertion after item, if item has children
-                if (item.HasItems)
+                // decide whether to insert before or after item
+                bool after = true;
+                if (positionRelativeToItem.Y > dragAreaSize)
                 {
-                    return null;
+                    if (size.Height - positionRelativeToItem.Y > dragAreaSize)
+                    {
+                        return null;
+                    }
                 }
-                index++;
-            }
+                else
+                {
+                    after = false;
+                }
 
-            // ask if insertion is allowed
-            if (TreeView.DropCommand.CanExecute(new DropParameters(parentItem, data, index)))
-            {
-                return new CanInsertReturn("", index, !after);
+                // get index, where to insert                
+                TreeViewExItem parentItem = item.ParentTreeViewItem;
+                ItemContainerGenerator itemContainerGenerator = (parentItem != null)?parentItem.ItemContainerGenerator:TreeView.ItemContainerGenerator;
+                int index = itemContainerGenerator.IndexFromContainer(item);                
+                if (after)
+                {
+                    // dont allow insertion after item, if item has children
+                    if (item.HasItems) return null;
+                    index++;
+                }               
+
+                // ask if insertion is allowed
+                if (TreeView.DropCommand.CanExecute(new DropParameters(parentItem, data, index)))
+                {
+                    return new CanInsertReturn("", index, !after);
+                }
             }
 
             return null;
@@ -252,7 +256,6 @@ namespace System.Windows.Controls.DragNDrop
         private bool CanDrop(TreeViewExItem item, IDataObject data)
         {
             if (TreeView.DropCommand == null) return false;
-            if (item == null) return false;
             
             return TreeView.DropCommand.CanExecute(new DropParameters(item, data));
         }
@@ -260,11 +263,11 @@ namespace System.Windows.Controls.DragNDrop
         private void OnDrop(object sender, DragEventArgs e)
         {
             TreeViewExItem item = GetTreeViewItemUnderMouse(e.GetPosition(TreeView));
-            if (item == null)
-            {
-                CleanUpAdorners();
-                return;
-            }
+            //if (item == null)
+            //{
+            //    CleanUpAdorners();
+            //    return;
+            //}
 
             CanInsertReturn canInsertReturn = CanInsert(item, e.GetPosition, e.Data);
             if (canInsertReturn != null)
@@ -304,6 +307,7 @@ namespace System.Windows.Controls.DragNDrop
             dragAdorner.UpdatePosition(point);
             if (IsMouseOverAdorner(point)) return;
             var itemsPresenter = TreeView.ScrollViewer.Content as ItemsPresenter;
+            /*
             if (itemsPresenter.InputHitTest(e.GetPosition(itemsPresenter)) == null)
             {
                 dragAdorner.Content.CanDrop = false;
@@ -312,6 +316,7 @@ namespace System.Windows.Controls.DragNDrop
                 if (insertAdorner != null) insertAdorner.Dispose();
                 return;
             }
+            */
 
             if (itemMouseIsOver != null)
             {
@@ -319,7 +324,7 @@ namespace System.Windows.Controls.DragNDrop
             }
 
             itemMouseIsOver = GetTreeViewItemUnderMouse(point);
-            if (itemMouseIsOver == null) return;            
+            //if (itemMouseIsOver == null) return;
             CanInsertReturn canInsertReturn = CanInsert(itemMouseIsOver, e.GetPosition, e.Data);
             if (canInsertReturn != null)
             {

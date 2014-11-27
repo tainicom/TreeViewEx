@@ -108,22 +108,25 @@ namespace DragNDropSample.ViewModel
             DropParameters dropParameters = (DropParameters)parameter;
             TreeViewExItem tvei = dropParameters.DropToItem;
             IDataObject dataObject = dropParameters.DropData as IDataObject;
-            int index = dropParameters.Index;
-            Node node = tvei.DataContext as Node;
+            int index = dropParameters.Index;            
+            Node node = (tvei == null)?null:tvei.DataContext as Node;
 
+            if (tvei == null) return true; //drop to root
+            
             if (index == -1)
                 return node.AllowDrop;
             else
                 return node.AllowInsert;
         }
+
         public void ExecuteDrop(object parameter)
         {
             DropParameters dropParameters = (DropParameters)parameter;
             TreeViewExItem tvei = dropParameters.DropToItem;
             IDataObject dataObject = dropParameters.DropData as IDataObject;
             int index = dropParameters.Index;
-            Node node = tvei.DataContext as Node;
-
+            Node node = (tvei == null)?null:tvei.DataContext as Node;
+            
             foreach (string f in dataObject.GetFormats())
             {
                 object obj = dataObject.GetData(f);
@@ -148,10 +151,11 @@ namespace DragNDropSample.ViewModel
 
         private void AddNode(Node node, int index, Node newNode)
         {
+            ObservableCollection<Node> children = (node==null) ? this.Children: node.Children;
             if (index == -1)
-                node.Children.Add(newNode);
+                children.Add(newNode); //drop
             else
-                node.Children.Insert(index, newNode);
+                children.Insert(index, newNode); //insert
         }
         
     }
