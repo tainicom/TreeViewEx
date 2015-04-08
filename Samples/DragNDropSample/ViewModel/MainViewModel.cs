@@ -15,7 +15,7 @@ namespace DragNDropSample.ViewModel
     {
         public ObservableCollection<Node> Children { get; set; }
 
-        #region Drag&Drop Commands
+        #region Drag & Drop Commands
 
         RelayCommand _dragCommand = null;
         public ICommand DragCommand
@@ -95,7 +95,7 @@ namespace DragNDropSample.ViewModel
             }
             return false;
         }
-        public void ExecuteDrag(object parameter)
+        private void ExecuteDrag(object parameter)
         {
             DragParameters dragParameters = (DragParameters)parameter;
             TreeViewExItem tvei = dragParameters.DragItem;
@@ -119,7 +119,7 @@ namespace DragNDropSample.ViewModel
                 return node.AllowInsert;
         }
 
-        public void ExecuteDrop(object parameter)
+        private void ExecuteDrop(object parameter)
         {
             DropParameters dropParameters = (DropParameters)parameter;
             TreeViewExItem tvei = dropParameters.DropToItem;
