@@ -262,7 +262,8 @@ namespace System.Windows.Controls.DragNDrop
         TreeViewExItem itemMouseIsOver;
         void OnDragOver(object sender, DragEventArgs e)
         {
-            e.Effects = DragDropEffects.None;           
+            e.Effects = DragDropEffects.None;
+            e.Handled = true;
 
             // drag over is the only event which returns the position
             Point point = e.GetPosition(TreeView);
