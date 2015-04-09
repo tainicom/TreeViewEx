@@ -14,12 +14,8 @@ namespace System.Windows.Controls.DragNDrop
         private AutoScroller autoScroller;
 
         private List<TreeViewExItem> draggableItems;
-
-        private Cursor initialCursor;
-
+        
         Stopwatch stopWatch;
-
-        DragAdorner dragAdorner;
 
         InsertAdorner insertAdorner;
 
@@ -38,7 +34,6 @@ namespace System.Windows.Controls.DragNDrop
             TreeView.Drop += OnDrop;
             TreeView.DragOver += OnDragOver;
             TreeView.DragLeave += OnDragLeave;
-            TreeView.GiveFeedback += OnGiveFeedBack;
         }
 
         void OnDragLeave(object sender, DragEventArgs e)
@@ -107,13 +102,6 @@ namespace System.Windows.Controls.DragNDrop
 
         private void CleanUpAdorners()
         {
-            if (dragAdorner != null)
-            {
-                // on external drop no cleanup method is called.
-                dragAdorner.Dispose();
-                dragAdorner = null;
-            }
-
             if (insertAdorner != null)
             {
                 insertAdorner.Dispose();
@@ -163,10 +151,7 @@ namespace System.Windows.Controls.DragNDrop
         }
 
         private void DragEnd()
-        {
-            DragDrop.RemoveGiveFeedbackHandler(TreeView, OnGiveFeedBack);
-         
-            TreeView.Cursor = initialCursor;
+        {   
             autoScroller.IsEnabled = false;
 
             // Remove the drag adorner from the adorner layer.
@@ -187,21 +172,7 @@ namespace System.Windows.Controls.DragNDrop
 
         private void DragStart(DragContent dragData)
         {
-            initialCursor = TreeView.Cursor;
             autoScroller.IsEnabled = true;
-            if (dragAdorner == null)
-            {
-                dragAdorner = new DragAdorner(TreeView, dragData);
-            }
-
-        }
-
-        private void OnGiveFeedBack(object sender, GiveFeedbackEventArgs e)
-        {
-            // disable switching to default cursors
-            e.UseDefaultCursors = false;
-            TreeView.Cursor = Cursors.Arrow;
-            e.Handled = true;
         }
 
         private CanInsertReturn CanInsert(TreeViewExItem item, Func<UIElement, Point> getPositionDelegate, IDataObject data)
@@ -291,28 +262,18 @@ namespace System.Windows.Controls.DragNDrop
         TreeViewExItem itemMouseIsOver;
         void OnDragOver(object sender, DragEventArgs e)
         {
+            e.Effects = DragDropEffects.None;           
+
             // drag over is the only event which returns the position
-            // GiveFeedback returns nonsense even from Mouse.GetPosition
             Point point = e.GetPosition(TreeView);
 
             if (TryScroll(point)) return;
 
-            if (dragAdorner == null)//external drop
-            {
-                var content = new DragContent();
-                content.Add(e.Data);
-                dragAdorner = new DragAdorner(TreeView, content);
-            }
-
-            dragAdorner.UpdatePosition(point);
             if (IsMouseOverAdorner(point)) return;
             var itemsPresenter = TreeView.ScrollViewer.Content as ItemsPresenter;
             /*
             if (itemsPresenter.InputHitTest(e.GetPosition(itemsPresenter)) == null)
             {
-                dragAdorner.Content.CanDrop = false;
-                dragAdorner.Content.CanInsert = false;
-                //dragAdorner.Content.InsertIndex = -1;
                 if (insertAdorner != null) insertAdorner.Dispose();
                 return;
             }
@@ -328,9 +289,7 @@ namespace System.Windows.Controls.DragNDrop
             CanInsertReturn canInsertReturn = CanInsert(itemMouseIsOver, e.GetPosition, e.Data);
             if (canInsertReturn != null)
             {
-                dragAdorner.Content.CanDrop = false;
-                dragAdorner.Content.CanInsert = true;
-                //dragAdorner.Content.InsertIndex = canInsertReturn.Index;
+                e.Effects = DragDropEffects.Move;
 
                 if (insertAdorner == null)
                 {
@@ -346,15 +305,14 @@ namespace System.Windows.Controls.DragNDrop
             }
             else
             {
-                dragAdorner.Content.CanInsert = false;
-                //dragAdorner.Content.InsertIndex = -1;
                 if (insertAdorner != null)
                 {
                     insertAdorner.Dispose();
                     insertAdorner = null;
                 }
 
-                dragAdorner.Content.CanDrop = CanDrop(itemMouseIsOver, e.Data);
+                if(CanDrop(itemMouseIsOver, e.Data))
+                    e.Effects = DragDropEffects.Move;
                 if (itemMouseIsOver != null)
                 {
                     itemMouseIsOver.IsCurrentDropTarget = true;
@@ -419,7 +377,6 @@ namespace System.Windows.Controls.DragNDrop
                 TreeView.Drop -= OnDrop;
                 TreeView.DragOver -= OnDragOver;
                 TreeView.DragLeave -= OnDragLeave;
-                TreeView.GiveFeedback -= OnGiveFeedBack;
             }
 
             if (itemMouseIsOver != null)

@@ -35,9 +35,6 @@ namespace System.Windows.Controls
         public static DependencyProperty DropCommandProperty = DependencyProperty.Register(
             "DropCommand", typeof(ICommand), typeof(TreeViewEx));
         
-        public static readonly DependencyProperty DragTemplateProperty = DependencyProperty.Register(
-           "DragTemplate", typeof(DataTemplate), typeof(TreeViewEx), new PropertyMetadata(null));
-
         public static readonly DependencyProperty InsertTemplateProperty = DependencyProperty.Register(
            "InsertTemplate", typeof(DataTemplate), typeof(TreeViewEx), new PropertyMetadata(null));
 
@@ -179,19 +176,6 @@ namespace System.Windows.Controls
         {
             get { return (ICommand)GetValue(DropCommandProperty); }
             set { SetValue(DropCommandProperty, value); }
-        }
-
-        public DataTemplate DragTemplate
-        {
-            get
-            {
-                return (DataTemplate)GetValue(DragTemplateProperty);
-            }
-
-            set
-            {
-                SetValue(DragTemplateProperty, value);
-            }
         }
 
         public DataTemplate InsertTemplate

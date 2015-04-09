@@ -18,55 +18,12 @@
                 <Setter Property="InsertionMarkerBrush" Value="DarkGray" />
             </Style>
             
-            <DataTemplate x:Key="dragTemplate">
-                <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="3" Background="WhiteSmoke">
-                    <Border.RenderTransform>
-                        <TranslateTransform X="20" Y="20"/>
-                    </Border.RenderTransform>
-                    <ContentPresenter x:Name="content">
-                        <ContentPresenter.ContentTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <ContentControl Content="{StaticResource forbiddenIcon}" Width="16" Height="16" VerticalContentAlignment="Center" Margin="4,1,0,2"/>
-                                    <TextBlock Text="Drop is not allowed here." Margin="-2,2,0,2"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ContentPresenter.ContentTemplate>
-                    </ContentPresenter>
-                </Border>
-                <DataTemplate.Triggers>
-                    <DataTrigger Binding="{Binding CanInsert}" Value="True">
-                        <Setter Property="ContentTemplate" TargetName="content" >
-                            <Setter.Value>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <ContentControl Content="{StaticResource insertIcon}" Width="30" Height="20" VerticalContentAlignment="Center" Margin="4,5,0,2"/>
-                                        <TextBlock Text="{Binding InsertIndex, StringFormat='Inserting at index {0}.'}" Margin="-12,2,2,2"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding CanDrop}" Value="True">
-                        <Setter Property="ContentTemplate" TargetName="content">
-                            <Setter.Value>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <ContentControl Content="{StaticResource allowedIcon}" Width="30" Height="20" VerticalContentAlignment="Center" Margin="4,5,0,0"/>
-                                        <TextBlock Text="Can drop here." Margin="-12,2,2,2"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </DataTrigger>
-                </DataTemplate.Triggers>
-            </DataTemplate>
         </ResourceDictionary>
 	</Window.Resources>
 
 	<DockPanel>
 		<Controls:TreeViewEx AutomationProperties.Name="TestApp2Tree" InsertionMarkerBrush="DarkGray"
-            ItemsSource="{Binding Path=Children}" DragTemplate="{DynamicResource dragTemplate}"
+            ItemsSource="{Binding Path=Children}" 
                              DragCommand="{Binding Path=DragCommand}" 
                              DropCommand="{Binding Path=DropCommand}" 
                              />

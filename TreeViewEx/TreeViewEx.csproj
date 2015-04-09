@@ -78,7 +78,6 @@
     <Compile Include="Controls\DragNDrop\CanInsertReturn.cs" />
     <Compile Include="Controls\Constants.cs" />
     <Compile Include="Controls\DragNDrop\InsertAdorner.cs" />
-    <Compile Include="Controls\DragNDrop\DragAdorner.cs" />
     <Compile Include="Controls\DragNDrop\DragContent.cs" />
     <Compile Include="Controls\DragNDrop\DragNDropController.cs" />
     <Compile Include="Controls\EditTextBox.cs" />
