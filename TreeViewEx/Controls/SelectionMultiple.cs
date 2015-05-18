@@ -1,10 +1,11 @@
 ﻿namespace tainicom.TreeViewEx
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows;
     using System.Windows.Input;
-    using System.Windows.Media;
 
     /// <summary>
     /// Logic for the multiple selection
@@ -216,6 +217,11 @@
         #endregion
 
         #region Overrides InputSubscriberBase
+
+        private TreeViewExItem selectItem = null;
+        private Point selectPosition;
+        private MouseButton selectButton;
+
         internal override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
@@ -225,9 +231,53 @@
             if (e.ChangedButton != MouseButton.Left && !(e.ChangedButton == MouseButton.Right && item.ContextMenu != null)) return;            
             if (item.IsEditing) return;
 
-            SelectSingleItem(item);
+            // ToggleItem or SelectWithShift
+            if (IsControlKeyDown || (IsShiftKeyDown))
+            {
+                SelectSingleItem(item);
+                FocusHelper.Focus(item);
+                return;
+            }
 
-            FocusHelper.Focus(item);
+            // begin click
+            if (selectItem == null)
+            {
+                selectItem = item;
+                selectPosition = e.GetPosition(TreeView);
+                selectButton = e.ChangedButton;
+            }
+        }
+
+        internal override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+
+            if (selectItem != null)
+            {
+                // detect drag
+                var dragDiff = selectPosition - e.GetPosition(TreeView);
+                if ((Math.Abs(dragDiff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(dragDiff.Y) > SystemParameters.MinimumVerticalDragDistance))
+                {
+                    // abort click
+                    selectItem = null;
+                }
+            }
+        }
+
+        internal override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseUp(e);
+
+            // click
+            if (selectItem != null && e.ChangedButton == selectButton)
+            {
+                // select item
+                SelectSingleItem(selectItem);
+                FocusHelper.Focus(selectItem);
+
+                // end click
+                selectItem = null;
+            }
         }
 
         private void SelectWithShift(TreeViewExItem item)
