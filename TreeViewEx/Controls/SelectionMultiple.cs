@@ -203,7 +203,7 @@
             }
             else
             {
-                List<object> itemsToUnSelect = new List<object>((IEnumerable<object>)treeViewEx.SelectedItems);
+                List<object> itemsToUnSelect = treeViewEx.SelectedItems.Cast<object>().ToList();
                 if (itemsToUnSelect.Contains(item.DataContext))
                 {
                     itemsToUnSelect.Remove(item.DataContext);
@@ -251,7 +251,7 @@
             TreeViewExItem shiftRootItem = treeViewEx.GetTreeViewItemsFor(new List<object> { firstSelectedItem }).First();
 
             List<object> itemsToSelect = treeViewEx.GetNodesToSelectBetween(shiftRootItem, item).Select(x => x.DataContext).ToList();
-            List<object> itemsToUnSelect = ((IEnumerable<object>)treeViewEx.SelectedItems).ToList();
+            List<object> itemsToUnSelect = treeViewEx.SelectedItems.Cast<object>().ToList();
 
             ModifySelection(itemsToSelect, itemsToUnSelect);
         }
