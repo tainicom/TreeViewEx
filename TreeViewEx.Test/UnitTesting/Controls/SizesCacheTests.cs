@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using FluentAssertions;
+using tainicom.TreeViewEx;
 
 namespace TreeViewEx.Test.Model.UnitTesting.Controls.SizesCacheTests
 {

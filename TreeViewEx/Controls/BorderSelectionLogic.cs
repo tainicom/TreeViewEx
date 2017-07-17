@@ -7,11 +7,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace System.Windows.Controls
+namespace tainicom.TreeViewEx
 {
     #region
 
+    using System;
     using System.Collections.Generic;
+    using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
 

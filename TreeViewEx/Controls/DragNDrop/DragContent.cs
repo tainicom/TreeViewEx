@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace System.Windows.Controls.DragNDrop
+namespace tainicom.TreeViewEx.DragNDrop
 {
     public class DragContent : INotifyPropertyChanged
     {

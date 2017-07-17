@@ -1,5 +1,5 @@
 ﻿
-namespace System.Windows.Controls.DragNDrop
+namespace tainicom.TreeViewEx.DragNDrop
 {
     public class DragParameters
     {

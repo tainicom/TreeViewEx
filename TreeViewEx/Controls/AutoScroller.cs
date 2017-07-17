@@ -4,9 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Timers;
+using System.Windows;
 using System.Windows.Input;
 
-namespace System.Windows.Controls
+namespace tainicom.TreeViewEx
 {
     class AutoScroller : InputSubscriberBase
     {
@@ -17,7 +18,7 @@ namespace System.Windows.Controls
 
         internal bool IsEnabled { get; set; }
 
-        internal override void OnMouseMove(Input.MouseEventArgs e)
+        internal override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
             if (!IsEnabled) return;

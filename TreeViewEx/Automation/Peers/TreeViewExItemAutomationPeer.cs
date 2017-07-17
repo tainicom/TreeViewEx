@@ -1,9 +1,13 @@
-﻿namespace System.Windows.Automation.Peers
+﻿namespace tainicom.TreeViewEx.Automation.Peers
 {
     #region
 
+    using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using System.Windows;
+    using System.Windows.Automation;
+    using System.Windows.Automation.Peers;
     using System.Windows.Automation.Provider;
     using System.Windows.Controls;
     using System.Windows.Media;
@@ -367,7 +371,7 @@
 
         public ProviderOptions ProviderOptions
         {
-            get { return Provider.ProviderOptions.OverrideProvider; }
+            get { return ProviderOptions.OverrideProvider; }
         }
         #endregion
     }

@@ -1,8 +1,7 @@
 ﻿<Window x:Class="DragNDropSample.MainWindow"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=TreeViewEx"
-      xmlns:Core="clr-namespace:System.Windows.Core;assembly=TreeViewEx"
+      xmlns:tvx="clr-namespace:tainicom.TreeViewEx;assembly=TreeViewEx"
       xmlns:Model="clr-namespace:DragNDropSample.Model" Title="MainWindow" Height="300" Width="400"
       AutomationProperties.Name="TestApp2Window">
 	<Window.Resources>
@@ -14,7 +13,8 @@
                 <TextBlock Text="{Binding Name}" />
             </HierarchicalDataTemplate>
             
-            <Style TargetType="{x:Type Controls:TreeViewEx}"       BasedOn="{StaticResource {x:Type Controls:TreeViewEx}}">
+            <Style TargetType="{x:Type tvx:TreeViewEx}"      
+                   BasedOn="{StaticResource {x:Type tvx:TreeViewEx}}">
                 <Setter Property="InsertionMarkerBrush" Value="DarkGray" />
             </Style>
             
@@ -22,8 +22,8 @@
 	</Window.Resources>
 
 	<DockPanel>
-		<Controls:TreeViewEx AutomationProperties.Name="TestApp2Tree" InsertionMarkerBrush="DarkGray"
-            ItemsSource="{Binding Path=Children}" 
+        <tvx:TreeViewEx AutomationProperties.Name="TestApp2Tree" InsertionMarkerBrush="DarkGray"
+            ItemsSource="{Binding Path=Children}"
                              DragCommand="{Binding Path=DragCommand}" 
                              DropCommand="{Binding Path=DropCommand}" 
                              />

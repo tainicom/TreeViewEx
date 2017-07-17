@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.DragNDrop;
 using System.Windows.Input;
 using DragNDropSample.Model;
+using tainicom.TreeViewEx;
+using tainicom.TreeViewEx.DragNDrop;
 
 namespace DragNDropSample.ViewModel
 {

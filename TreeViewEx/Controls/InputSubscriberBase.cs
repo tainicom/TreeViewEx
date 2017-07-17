@@ -1,7 +1,9 @@
-﻿namespace System.Windows.Controls
+﻿namespace tainicom.TreeViewEx
 {
     using System.Diagnostics;
-    using System.Windows.Controls.DragNDrop;
+    using System.Windows;
+    using System.Windows.Controls;
+    using tainicom.TreeViewEx.DragNDrop;
     using System.Windows.Documents;
     using System.Windows.Input;
     using System.Windows.Media;

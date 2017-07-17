@@ -1,9 +1,10 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:Controls="clr-namespace:System.Windows.Controls">
+	xmlns:Controls="clr-namespace:System.Windows.Controls"
+    xmlns:tvx="clr-namespace:tainicom.TreeViewEx">
 
-    <Style TargetType="{x:Type Controls:EditTextBox}">
+    <Style TargetType="{x:Type tvx:EditTextBox}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
         <Setter Property="BorderBrush" Value="Black" />

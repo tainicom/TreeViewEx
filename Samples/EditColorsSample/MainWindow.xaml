@@ -1,6 +1,6 @@
 ﻿<Window x:Class="EditSample.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=TreeViewEx"
+        xmlns:tvx="clr-namespace:tainicom.TreeViewEx;assembly=TreeViewEx"
         xmlns:Model="clr-namespace:EditSample.Model" Title="MainWindow" Height="350" Width="261"
         xmlns:cp="clr-namespace:TreeViewEx.SimpleSample"
         AutomationProperties.Name="TestApp2Window">
@@ -11,14 +11,14 @@
                 <TextBlock Text="{Binding Name}" />
             </StackPanel>
         </HierarchicalDataTemplate>
-        
-        <Style TargetType="Controls:TreeViewExItem">
+
+        <Style TargetType="tvx:TreeViewExItem">
             <Setter Property="IsEditable" Value="{Binding Editable}" />
             <Setter Property="TemplateEdit">
                 <Setter.Value>
                     <DataTemplate>
                         <cp:ColorPicker SelectedColor="{Binding Color, Mode=TwoWay}" Colors="{Binding Colors}" 
-                                Editing="{Binding IsEditing, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeViewExItem}}}"/>
+                                Editing="{Binding IsEditing, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type tvx:TreeViewExItem}}}"/>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
@@ -34,6 +34,6 @@
         </Style>
     </Window.Resources>
     <DockPanel>
-        <Controls:TreeViewEx AutomationProperties.Name="TestApp2Tree" ItemsSource="{Binding Path=Children}" />
+        <tvx:TreeViewEx AutomationProperties.Name="TestApp2Tree" ItemsSource="{Binding Path=Children}" />
     </DockPanel>
 </Window>

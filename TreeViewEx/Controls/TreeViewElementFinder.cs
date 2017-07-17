@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Controls;
 
-namespace System.Windows.Controls
+namespace tainicom.TreeViewEx
 {
     internal static class TreeViewElementFinder
     {
