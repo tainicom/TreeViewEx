@@ -2,9 +2,12 @@
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace System.Windows.Controls.DragNDrop
+namespace tainicom.TreeViewEx.DragNDrop
 {
+    using System;
     using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Documents;
     using System.Windows.Media;
     using System.Windows.Threading;
@@ -14,9 +17,9 @@ namespace System.Windows.Controls.DragNDrop
         private AutoScroller autoScroller;
 
         private List<TreeViewExItem> draggableItems;
-        
-        Stopwatch stopWatch;
 
+        Stopwatch stopWatch;
+        
         InsertAdorner insertAdorner;
 
         const int dragAreaSize = 5;
@@ -151,7 +154,7 @@ namespace System.Windows.Controls.DragNDrop
         }
 
         private void DragEnd()
-        {   
+        {
             autoScroller.IsEnabled = false;
 
             // Remove the drag adorner from the adorner layer.
@@ -262,7 +265,7 @@ namespace System.Windows.Controls.DragNDrop
         TreeViewExItem itemMouseIsOver;
         void OnDragOver(object sender, DragEventArgs e)
         {
-            e.Effects = DragDropEffects.None;
+            e.Effects = DragDropEffects.None;           
             e.Handled = true;
 
             // drag over is the only event which returns the position

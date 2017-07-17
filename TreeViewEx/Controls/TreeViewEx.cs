@@ -4,7 +4,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace System.Windows.Controls
+namespace tainicom.TreeViewEx
 {
     #region
 
@@ -14,10 +14,14 @@ namespace System.Windows.Controls
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq;
+    using System.Windows;
     using System.Windows.Automation.Peers;
-    using System.Windows.Controls.DragNDrop;
+    using tainicom.TreeViewEx.DragNDrop;
     using System.Windows.Input;
     using System.Windows.Media;
+    using System.Windows.Controls;
+    using tainicom.TreeViewEx.Automation.Peers;
+    using System;
 
     #endregion
 
@@ -177,7 +181,7 @@ namespace System.Windows.Controls
             get { return (ICommand)GetValue(DropCommandProperty); }
             set { SetValue(DropCommandProperty, value); }
         }
-
+        
         public DataTemplate InsertTemplate
         {
             get

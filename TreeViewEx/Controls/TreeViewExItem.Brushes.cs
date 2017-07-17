@@ -1,4 +1,4 @@
-﻿namespace System.Windows.Controls
+﻿namespace tainicom.TreeViewEx
 {
     #region
 
@@ -9,7 +9,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.ComponentModel;
-    using System.Windows.Controls.DragNDrop;
+    using tainicom.TreeViewEx.DragNDrop;
+    using System.Windows;
     #endregion
 
     public partial class TreeViewExItem

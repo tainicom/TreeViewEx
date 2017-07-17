@@ -1,12 +1,10 @@
-﻿namespace System.Windows.Controls
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
+
+namespace tainicom.TreeViewEx
 {
-	#region
-
-	using System.Windows.Input;
-	using System.Windows.Data;
-
-	#endregion
-
 	/// <summary>
 	/// Text box which focuses itself on load and selects all text in it.
 	/// </summary>

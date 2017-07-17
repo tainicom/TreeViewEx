@@ -3,7 +3,7 @@
 //using System.Linq;
 //using System.Text;
 
-//namespace System.Windows.Controls
+//namespace tainicom.TreeViewEx
 //{
 //    internal class ItemWrapper
 //    {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
-namespace System.Windows.Controls
+namespace tainicom.TreeViewEx
 {
     class IsEditingManager:InputSubscriberBase
     {
@@ -16,7 +16,7 @@ namespace System.Windows.Controls
             this.treeview = treeview;
         }
 
-        internal override void OnMouseDown(Input.MouseButtonEventArgs e)
+        internal override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
             StopEditing();

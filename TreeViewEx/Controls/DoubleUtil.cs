@@ -4,7 +4,7 @@ using System.Windows;
 using System.Runtime.InteropServices;
 
 
-namespace System.Windows.Controls
+namespace tainicom.TreeViewEx
 {
     internal static class DoubleUtil
     {

@@ -4,20 +4,24 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace System.Windows.Controls
+namespace tainicom.TreeViewEx
 {
     #region
 
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq;
+    using System.Windows;
     using System.Windows.Automation.Peers;
+    using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Input;
     using System.Windows.Markup;
     using System.Windows.Media;
+    using tainicom.TreeViewEx.Automation.Peers;
 
     #endregion
 
@@ -156,7 +160,7 @@ namespace System.Windows.Controls
         {
             get
             {
-                if (Visibility != Windows.Visibility.Visible) return false;
+                if (Visibility != Visibility.Visible) return false;
                 TreeViewExItem currentItem = ParentTreeViewItem;
                 while (currentItem != null)
                 {

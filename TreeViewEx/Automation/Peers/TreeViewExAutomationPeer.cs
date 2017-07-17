@@ -1,4 +1,4 @@
-﻿namespace System.Windows.Automation.Peers
+﻿namespace tainicom.TreeViewEx.Automation.Peers
 {
     #region
 
@@ -6,6 +6,7 @@
     using System.Windows.Automation.Provider;
     using System.Windows.Controls;
     using System.Linq;
+    using System.Windows.Automation.Peers;
     #endregion
 
     public class TreeViewExAutomationPeer : ItemsControlAutomationPeer, ISelectionProvider

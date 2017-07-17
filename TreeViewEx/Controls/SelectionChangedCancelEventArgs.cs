@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace System.Windows.Controls
+namespace tainicom.TreeViewEx
 {
 	public class SelectionChangedCancelEventArgs : CancelEventArgs
 	{

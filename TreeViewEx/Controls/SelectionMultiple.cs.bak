@@ -1,4 +1,4 @@
-﻿namespace tainicom.TreeViewEx
+﻿namespace System.Windows.Controls
 {
     using System.Collections.Generic;
     using System.Linq;

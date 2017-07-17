@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace System.Windows.Controls
+namespace tainicom.TreeViewEx
 {
     /// <summary>
     /// TODO: Update summary.

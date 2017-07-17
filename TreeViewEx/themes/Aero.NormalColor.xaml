@@ -1,11 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:Controls="clr-namespace:System.Windows.Controls">
+                    xmlns:tvx="clr-namespace:tainicom.TreeViewEx">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/TreeViewEx;component/themes/TreeViewExItem.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type Controls:TreeViewExItem}" BasedOn="{StaticResource TreeViewExBaseStyle}">
+    <Style TargetType="{x:Type tvx:TreeViewExItem}" BasedOn="{StaticResource TreeViewExBaseStyle}">
         <Setter Property="BorderBrushFocusedSelected">
             <Setter.Value>
                 <SolidColorBrush Color="#7DA2CE" />

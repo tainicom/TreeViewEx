@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Data;
 
-namespace System.Windows.Controls
+namespace tainicom.TreeViewEx
 {
     public sealed class PropertyChangedNotifier :
     DependencyObject,
