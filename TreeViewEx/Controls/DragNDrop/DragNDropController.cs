@@ -16,7 +16,8 @@ namespace tainicom.TreeViewEx.DragNDrop
     {
         private AutoScroller autoScroller;
 
-        private List<TreeViewExItem> draggableItems;
+        private Point? dragPosition;
+        private MouseButton dragButton;
 
         Stopwatch stopWatch;
         
@@ -56,19 +57,18 @@ namespace tainicom.TreeViewEx.DragNDrop
         }
 
         public bool Enabled { get; set; }
-        private bool CanDrag { get { return draggableItems != null && draggableItems.Count > 0; } }
+
         internal override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
             if (CheckOverScrollBar(e.GetPosition(TreeView))) return;
 
-            // initalize draggable items on click. Doing that in mouse move results in drag operations,
-            // when the border is visible.
-            draggableItems = GetDraggableItems(e.GetPosition(TreeView));
-            //if (CanDrag)
-            //{
-                //e.Handled = true;
-            //}
+            // initalize draggable items on click. Doing that in mouse move results in drag operations, when the border is visible.
+            if (!dragPosition.HasValue)
+            {
+                dragPosition = e.GetPosition(TreeView);
+                dragButton = e.ChangedButton;
+            }
         }
 
         internal override void OnMouseUp(MouseButtonEventArgs e)
@@ -76,31 +76,44 @@ namespace tainicom.TreeViewEx.DragNDrop
             base.OnMouseUp(e);
 
             // otherwise drops are triggered even if no node was selected in drop
-            draggableItems = null;
+            if (dragPosition.HasValue && e.ChangedButton == dragButton)
+            {
+                dragPosition = null;
+            }
         }
         internal override void OnMouseMove(MouseEventArgs e)
         {
-            if (!IsLeftButtonDown ||CheckOverScrollBar(e.GetPosition(TreeView)))
+            if (CheckOverScrollBar(e.GetPosition(TreeView)))
             {
                 CleanUpAdorners();
-
                 return;
             }
 
-            if (!CanDrag) return;
-
-            DragContent dragData = new DragContent();
-            foreach (var item in draggableItems)
+            if (dragPosition.HasValue)
             {                
-                DragParameters dragParameters = new DragParameters(item);
-                TreeView.DragCommand.Execute(dragParameters);
-                dragData.Add(dragParameters.DraggedObject);
-            }
+                var dragDiff = dragPosition.Value - e.GetPosition(TreeView);
+                if (Math.Abs(dragDiff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(dragDiff.Y) > SystemParameters.MinimumVerticalDragDistance)
+                {
+                    // begin Drag
+                    var draggableItems = GetDraggableItems(dragPosition.Value);
+                    dragPosition = null;
 
-            DragStart(dragData);
-            DragDo(dragData);
-            DragEnd();
-            e.Handled = true;
+                    if (draggableItems.Count == 0) return;
+
+                    DragContent dragData = new DragContent();
+                    foreach (var item in draggableItems)
+                    {
+                        DragParameters dragParameters = new DragParameters(item);
+                        TreeView.DragCommand.Execute(dragParameters);
+                        dragData.Add(dragParameters.DraggedObject);
+                    }
+
+                    DragStart(dragData);
+                    DragDo(dragData);
+                    DragEnd();
+                    e.Handled = true;
+                }
+            }
         }
 
         private void CleanUpAdorners()
