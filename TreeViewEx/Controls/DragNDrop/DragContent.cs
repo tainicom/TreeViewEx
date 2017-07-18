@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
 namespace tainicom.TreeViewEx.DragNDrop
 {
@@ -37,7 +34,7 @@ namespace tainicom.TreeViewEx.DragNDrop
             }
         }
         
-        public IEnumerable<object> Items { get { return draggedItems.AsEnumerable<object>(); } }
+        public IEnumerable<object> Items { get { return draggedItems; } }
 
         public int Count { get { return draggedItems.Count; } }
 
