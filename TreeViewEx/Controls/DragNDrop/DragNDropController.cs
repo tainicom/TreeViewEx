@@ -103,16 +103,11 @@ namespace tainicom.TreeViewEx.DragNDrop
 
                     if (canDrag && draggableItems.Count > 0)
                     {
-                        DragContent dragData = new DragContent();
-                        foreach (var item in draggableItems)
-                        {
-                            DragParameters dragParameters = new DragParameters(item);
-                            TreeView.DragCommand.Execute(dragParameters);
-                            dragData.Add(dragParameters.DraggedObject);
-                        }
+                        var dragParameters = new DragParameters(draggableItems, canDragParameters.Position, canDragParameters.Button);
+                        TreeView.DragCommand.Execute(dragParameters);
 
-                        DragStart(dragData);
-                        DragDo(dragData);
+                        DragStart();
+                        DragDrop.DoDragDrop(TreeView, dragParameters.DataObject, dragParameters.AllowedEffects);
                         DragEnd();
                         e.Handled = true;
                     }
@@ -165,11 +160,6 @@ namespace tainicom.TreeViewEx.DragNDrop
             return true;
         }
 
-        private void DragDo(DragContent dragData)
-        {
-            DragDrop.DoDragDrop(TreeView, new DataObject(dragData), DragDropEffects.All);
-        }
-
         private void DragEnd()
         {
             autoScroller.IsEnabled = false;
@@ -190,7 +180,7 @@ namespace tainicom.TreeViewEx.DragNDrop
             }
         }
 
-        private void DragStart(DragContent dragData)
+        private void DragStart()
         {
             autoScroller.IsEnabled = true;
         }

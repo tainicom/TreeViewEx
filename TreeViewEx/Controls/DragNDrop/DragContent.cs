@@ -10,7 +10,7 @@ namespace tainicom.TreeViewEx.DragNDrop
         private int insertIndex;
         private List<object> draggedItems;
 
-        public DragContent()
+        internal DragContent()
         {
             draggedItems = new List<object>();
         }

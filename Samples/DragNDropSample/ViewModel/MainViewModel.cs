@@ -100,8 +100,13 @@ namespace DragNDropSample.ViewModel
         private void ExecuteDrag(object parameter)
         {
             DragParameters dragParameters = (DragParameters)parameter;
-            TreeViewExItem tvei = dragParameters.DragItem;
-            dragParameters.DraggedObject = tvei.DataContext;
+
+            var data = new List<Node>();
+            foreach (var item in dragParameters.Items)
+                data.Add(item.DataContext as Node);
+
+            dragParameters.DataObject.SetData("Nodes", data);
+
             return;
         }
 
@@ -110,7 +115,11 @@ namespace DragNDropSample.ViewModel
             DropParameters dropParameters = (DropParameters)parameter;
             TreeViewExItem tvei = dropParameters.DropToItem;
             IDataObject dataObject = dropParameters.DropData as IDataObject;
-            int index = dropParameters.Index;            
+
+            if (!dataObject.GetDataPresent("NewNode") && !dataObject.GetDataPresent("Nodes"))
+                return false;
+
+            int index = dropParameters.Index;
             Node node = (tvei == null)?null:tvei.DataContext as Node;
 
             if (tvei == null) return true; //drop to root
@@ -128,26 +137,22 @@ namespace DragNDropSample.ViewModel
             IDataObject dataObject = dropParameters.DropData as IDataObject;
             int index = dropParameters.Index;
             Node node = (tvei == null)?null:tvei.DataContext as Node;
-            
-            foreach (string f in dataObject.GetFormats())
+
+            if (dataObject.GetDataPresent("NewNode"))
+                AddNode(node, index, new Node() { Name = "New node" });
+
+            if (dataObject.GetDataPresent("Nodes"))
             {
-                object obj = dataObject.GetData(f);
-                DragContent content = obj as DragContent;
-                if (content != null)
+                var nodeList = dataObject.GetData("Nodes") as IEnumerable<Node>;
+                foreach (var item in nodeList)
                 {
-                    foreach (var item in content.Items.Reverse())
-                    {
-                        Node oldNode = (Node)item;
-                        Node newNode = new Node();
-                        newNode.Name = string.Format("Copy of {0}", oldNode.Name.Replace(" (Drag Allowed)", string.Empty));
-                        AddNode(node, index, newNode);
-                    }
+                    Node oldNode = item as Node;
+                    Node newNode = new Node();
+                    newNode.Name = string.Format("Copy of {0}", oldNode.Name.Replace(" (Drag Allowed)", string.Empty));
+                    AddNode(node, index, newNode);
                 }
-                else
-                {
-                    AddNode(node, index, new Node() { Name = "New node" });
-                }                
             }
+
             return;
         }
 

@@ -43,7 +43,7 @@
                 && (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
             {
                 var frameworkElem = ((FrameworkElement)e.OriginalSource);
-                DragDrop.DoDragDrop(frameworkElem, new DataObject("Node", frameworkElem.DataContext), DragDropEffects.Move);
+                DragDrop.DoDragDrop(frameworkElem, new DataObject("NewNode", frameworkElem.DataContext), DragDropEffects.Move);
             }
         }
         #endregion
