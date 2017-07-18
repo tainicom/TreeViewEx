@@ -90,28 +90,35 @@ namespace tainicom.TreeViewEx.DragNDrop
             }
 
             if (dragPosition.HasValue)
-            {                
+            {
                 var dragDiff = dragPosition.Value - e.GetPosition(TreeView);
-                if (Math.Abs(dragDiff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(dragDiff.Y) > SystemParameters.MinimumVerticalDragDistance)
+                if (TreeView.DragCommand != null && (Math.Abs(dragDiff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(dragDiff.Y) > SystemParameters.MinimumVerticalDragDistance))
                 {
                     // begin Drag
                     var draggableItems = GetDraggableItems(dragPosition.Value);
                     dragPosition = null;
 
-                    if (draggableItems.Count == 0) return;
-
-                    DragContent dragData = new DragContent();
                     foreach (var item in draggableItems)
                     {
-                        DragParameters dragParameters = new DragParameters(item);
-                        TreeView.DragCommand.Execute(dragParameters);
-                        dragData.Add(dragParameters.DraggedObject);
+                        if (!TreeView.DragCommand.CanExecute(new DragParameters(item)))
+                            return; // if one item is not draggable, nothing can be dragged
                     }
 
-                    DragStart(dragData);
-                    DragDo(dragData);
-                    DragEnd();
-                    e.Handled = true;
+                    if (draggableItems.Count > 0)
+                    {
+                        DragContent dragData = new DragContent();
+                        foreach (var item in draggableItems)
+                        {
+                            DragParameters dragParameters = new DragParameters(item);
+                            TreeView.DragCommand.Execute(dragParameters);
+                            dragData.Add(dragParameters.DraggedObject);
+                        }
+
+                        DragStart(dragData);
+                        DragDo(dragData);
+                        DragEnd();
+                        e.Handled = true;
+                    }
                 }
             }
         }
@@ -356,35 +363,21 @@ namespace tainicom.TreeViewEx.DragNDrop
 
         private List<TreeViewExItem> GetDraggableItems(Point mousePositionRelativeToTree)
         {
-            if (TreeView.DragCommand == null) return new List<TreeViewExItem>();
-            
-            List<TreeViewExItem> items = TreeView.GetTreeViewItemsFor(TreeView.SelectedItems).ToList();
             TreeViewExItem itemUnderMouse = GetTreeViewItemUnderMouse(mousePositionRelativeToTree);
             if(itemUnderMouse == null) return new List<TreeViewExItem>();
-                
-            if (items.Contains(itemUnderMouse))
-            {
-                foreach (var item in items)
-                {
-                    if (!TreeView.DragCommand.CanExecute(new DragParameters(item)))
-                    {
-                        // if one item is not draggable, nothing can be dragged
-                        return new List<TreeViewExItem>();
-                    }
-                }
+            
+            List<TreeViewExItem> items = TreeView.GetTreeViewItemsFor(TreeView.SelectedItems).ToList();
 
-                return items;
+            if (!items.Contains(itemUnderMouse))
+            {
+                //mouse is not over an selected item. We have to check if it is over the content. In this case we have to select and start drag n drop.
+                items = new List<TreeViewExItem>();
+                var contentPresenter = itemUnderMouse.Template.FindName("content", itemUnderMouse) as ContentPresenter;
+                if (contentPresenter.IsMouseOver)
+                    items.Add(itemUnderMouse);
             }
 
-            //mouse is not over an selected item. We have to check if it is over the content. In this case we have to select and start drag n drop.
-            var contentPresenter = itemUnderMouse.Template.FindName("content", itemUnderMouse) as ContentPresenter;
-            if (contentPresenter.IsMouseOver)
-            {
-                if(TreeView.DragCommand.CanExecute(new DragParameters(itemUnderMouse)))
-                    return new List<TreeViewExItem> { itemUnderMouse };
-            }
-
-            return new List<TreeViewExItem>();
+            return items;
         }
 
         public void Dispose()
