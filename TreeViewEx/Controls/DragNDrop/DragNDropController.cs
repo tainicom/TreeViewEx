@@ -96,15 +96,12 @@ namespace tainicom.TreeViewEx.DragNDrop
                 {
                     // begin Drag
                     var draggableItems = GetDraggableItems(dragPosition.Value);
+                    var canDragParameters = new CanDragParameters(draggableItems, dragPosition.Value, dragButton);
                     dragPosition = null;
 
-                    foreach (var item in draggableItems)
-                    {
-                        if (!TreeView.DragCommand.CanExecute(new DragParameters(item)))
-                            return; // if one item is not draggable, nothing can be dragged
-                    }
+                    var canDrag = TreeView.DragCommand.CanExecute(canDragParameters);
 
-                    if (draggableItems.Count > 0)
+                    if (canDrag && draggableItems.Count > 0)
                     {
                         DragContent dragData = new DragContent();
                         foreach (var item in draggableItems)

@@ -87,14 +87,15 @@ namespace DragNDropSample.ViewModel
 
         private bool CanExecuteDrag(object parameter)
         {
-            DragParameters dragParameters = (DragParameters)parameter;
-            TreeViewExItem tvei = dragParameters.DragItem;
-            Node node = tvei.DataContext as Node;
-            if(node!=null)
+            CanDragParameters dragParameters = (CanDragParameters)parameter;
+
+            foreach (TreeViewExItem tvei in dragParameters.Items)
             {
-                return node.AllowDrag;
+                Node node = tvei.DataContext as Node;
+                // if one item is not draggable, nothing can be dragged
+                if (node == null || !node.AllowDrag) return false;
             }
-            return false;
+            return true;
         }
         private void ExecuteDrag(object parameter)
         {
