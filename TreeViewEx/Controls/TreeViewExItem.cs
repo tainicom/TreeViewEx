@@ -52,6 +52,9 @@ namespace tainicom.TreeViewEx
         public static DependencyProperty TemplateEditProperty = DependencyProperty.Register(
            "TemplateEdit", typeof(DataTemplate), typeof(TreeViewExItem), new FrameworkPropertyMetadata(null, null));
 
+        public static DependencyProperty TemplateSelectorEditProperty = DependencyProperty.Register(
+            "TemplateSelectorEdit", typeof(DataTemplateSelector), typeof(TreeViewExItem), new FrameworkPropertyMetadata(null, null));
+
         public static readonly DependencyProperty IndentationProperty =
             DependencyProperty.Register("Indentation", typeof(double), typeof(TreeViewExItem), new PropertyMetadata(10.0));
 
@@ -187,6 +190,12 @@ namespace tainicom.TreeViewEx
             {
                 SetValue(TemplateEditProperty, value);
             }
+        }
+
+        public DataTemplateSelector TemplateSelectorEdit
+        {
+            get { return (DataTemplateSelector)GetValue(TemplateSelectorEditProperty); }
+            set { SetValue(TemplateSelectorEditProperty, value); }
         }
 
         [DependsOn("Indentation")]
@@ -379,7 +388,7 @@ namespace tainicom.TreeViewEx
 
         private bool StartEditing()
         {
-            if (TemplateEdit != null && IsFocused && IsEditable)
+            if ((TemplateEdit != null || TemplateSelectorEdit != null) && IsFocused && IsEditable)
             {
                 ParentTreeView.IsEditingManager.StartEditing(this);
                 return true;
