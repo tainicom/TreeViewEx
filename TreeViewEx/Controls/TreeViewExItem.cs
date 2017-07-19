@@ -244,7 +244,7 @@ namespace tainicom.TreeViewEx
             {
                 case NotifyCollectionChangedAction.Remove:
                     if (ParentTreeView != null && ParentTreeView.Selection != null) // happens during unload or when removing if never realized
-                        ParentTreeView.Selection.ClearObsoleteItems(e.OldItems.Cast<object>());
+                        ParentTreeView.Selection.ClearObsoleteItems(e.OldItems);
                     break;
 
                 case NotifyCollectionChangedAction.Reset:

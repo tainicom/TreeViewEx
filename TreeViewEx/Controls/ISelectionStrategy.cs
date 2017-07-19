@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
 namespace tainicom.TreeViewEx
 {
     /// <summary>
@@ -20,6 +20,6 @@ namespace tainicom.TreeViewEx
 
         void SelectLast();
 
-        void ClearObsoleteItems(IEnumerable<object> items);
+        void ClearObsoleteItems(IEnumerable items);
     }
 }

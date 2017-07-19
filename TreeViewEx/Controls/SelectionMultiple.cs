@@ -1,5 +1,6 @@
 ﻿namespace tainicom.TreeViewEx
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Input;
@@ -365,14 +366,15 @@
             FocusHelper.Focus(item);
         }
 
-        public void ClearObsoleteItems(IEnumerable<object> items)
+        public void ClearObsoleteItems(IEnumerable items)
         {
-            foreach (object itemToUnSelect in items)
+            foreach (var itemToUnSelect in items)
             {
-                if (treeViewEx.SelectedItems.Contains(itemToUnSelect)) treeViewEx.SelectedItems.Remove(itemToUnSelect);
+                if (itemToUnSelect == lastShiftRoot)
+                    lastShiftRoot = null;
+                if (!treeViewEx.SelectedItems.IsReadOnly && treeViewEx.SelectedItems.Contains(itemToUnSelect))
+                    treeViewEx.SelectedItems.Remove(itemToUnSelect);
             }
-
-            if (items.Contains(lastShiftRoot)) lastShiftRoot = null;
         }
 
         #endregion
