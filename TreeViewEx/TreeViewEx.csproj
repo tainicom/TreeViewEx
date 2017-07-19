@@ -95,7 +95,6 @@
     <Compile Include="Controls\DragNDrop\CanInsertReturn.cs" />
     <Compile Include="Controls\Constants.cs" />
     <Compile Include="Controls\DragNDrop\InsertAdorner.cs" />
-    <Compile Include="Controls\DragNDrop\DragContent.cs" />
     <Compile Include="Controls\DragNDrop\DragNDropController.cs" />
     <Compile Include="Controls\EditTextBox.cs" />
     <Compile Include="Controls\InputEventRouter.cs" />

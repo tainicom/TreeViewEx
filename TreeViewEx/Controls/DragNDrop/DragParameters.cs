@@ -20,7 +20,7 @@ namespace tainicom.TreeViewEx.DragNDrop
 
     public class DragParameters
     {
-        public readonly DataObject DataObject = new DataObject();
+        public readonly IDataObject Data = new DataObject();
         public readonly IEnumerable<TreeViewExItem> Items;
         public readonly Point Position;
         public readonly MouseButton Button;

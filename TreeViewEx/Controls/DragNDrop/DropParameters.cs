@@ -5,17 +5,17 @@ namespace tainicom.TreeViewEx.DragNDrop
     public class DropParameters
     {
         public readonly TreeViewExItem DropToItem;
-        public readonly IDataObject DropData;
+        public readonly IDataObject Data;
         public readonly int Index;
 
-        public DropParameters(TreeViewExItem dropToItem, IDataObject dropData): this(dropToItem, dropData, -1)
+        public DropParameters(TreeViewExItem dropToItem, IDataObject data): this(dropToItem, data, -1)
         {
         }
 
-        public DropParameters(TreeViewExItem dropToItem, IDataObject dropData, int index)
+        public DropParameters(TreeViewExItem dropToItem, IDataObject data, int index)
         {
             this.DropToItem = dropToItem;
-            this.DropData = dropData;
+            this.Data = data;
             this.Index = index;
         }
                 

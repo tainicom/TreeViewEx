@@ -105,7 +105,7 @@ namespace DragNDropSample.ViewModel
             foreach (var item in dragParameters.Items)
                 data.Add(item.DataContext as Node);
 
-            dragParameters.DataObject.SetData("Nodes", data);
+            dragParameters.Data.SetData("Nodes", data);
 
             return;
         }
@@ -114,7 +114,7 @@ namespace DragNDropSample.ViewModel
         {
             DropParameters dropParameters = (DropParameters)parameter;
             TreeViewExItem tvei = dropParameters.DropToItem;
-            IDataObject dataObject = dropParameters.DropData as IDataObject;
+            IDataObject dataObject = dropParameters.Data as IDataObject;
 
             if (!dataObject.GetDataPresent("NewNode") && !dataObject.GetDataPresent("Nodes"))
                 return false;
@@ -134,7 +134,7 @@ namespace DragNDropSample.ViewModel
         {
             DropParameters dropParameters = (DropParameters)parameter;
             TreeViewExItem tvei = dropParameters.DropToItem;
-            IDataObject dataObject = dropParameters.DropData as IDataObject;
+            IDataObject dataObject = dropParameters.Data as IDataObject;
             int index = dropParameters.Index;
             Node node = (tvei == null)?null:tvei.DataContext as Node;
 

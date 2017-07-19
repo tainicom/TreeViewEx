@@ -107,7 +107,7 @@ namespace tainicom.TreeViewEx.DragNDrop
                         TreeView.DragCommand.Execute(dragParameters);
 
                         DragStart();
-                        DragDrop.DoDragDrop(TreeView, dragParameters.DataObject, dragParameters.AllowedEffects);
+                        DragDrop.DoDragDrop(TreeView, dragParameters.Data, dragParameters.AllowedEffects);
                         DragEnd();
                         e.Handled = true;
                     }
