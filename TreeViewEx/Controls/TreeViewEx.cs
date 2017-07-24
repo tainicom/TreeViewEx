@@ -300,7 +300,7 @@ namespace tainicom.TreeViewEx
             inputEventRouter.Add(IsEditingManager);
             inputEventRouter.Add(autoScroller);
             inputEventRouter.Add(dragNDropController);
-            inputEventRouter.Add(selectionMultiple.BorderSelectionLogic);
+            //inputEventRouter.Add(selectionMultiple.BorderSelectionLogic);
             inputEventRouter.Add(selectionMultiple);
             isInitialized = true;
         }
