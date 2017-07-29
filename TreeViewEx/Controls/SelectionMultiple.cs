@@ -289,22 +289,26 @@
             }
             else
             {
-                if (treeViewEx.SelectedItems.Count > 0)
-                {
-                    firstSelectedItem = treeViewEx.SelectedItems[0];
+                // Get the first item in the SelectedItems that is also bound to the Tree.
+                firstSelectedItem = treeViewEx.SelectedItems.Cast<object>().FirstOrDefault((x) => { return treeViewEx.GetTreeViewItemFor(x) != null; });
                 }
-                else
-                {
-                    firstSelectedItem = null;
-                }
-            }
 
+            if (firstSelectedItem != null)
+                {
             TreeViewExItem shiftRootItem = treeViewEx.GetTreeViewItemsFor(new List<object> { firstSelectedItem }).First();
 
             List<object> itemsToSelect = treeViewEx.GetNodesToSelectBetween(shiftRootItem, item).Select(x => x.DataContext).ToList();
             List<object> itemsToUnSelect = treeViewEx.SelectedItems.Cast<object>().ToList();
 
             ModifySelection(itemsToSelect, itemsToUnSelect);
+            }
+            else
+            {   // Fall-back to sigle selection
+                List<object> itemsToUnSelect = treeViewEx.SelectedItems.Cast<object>().ToList();
+                if (itemsToUnSelect.Contains(item.DataContext))
+                    itemsToUnSelect.Remove(item.DataContext);
+                ModifySelection(item.DataContext, itemsToUnSelect);
+            }
         }
         #endregion
 
