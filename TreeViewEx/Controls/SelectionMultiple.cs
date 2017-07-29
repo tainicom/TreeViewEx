@@ -77,7 +77,7 @@
         private bool ModifySelection(object itemToSelect, List<object> itemsToUnselect)
         {
             List<object> itemsToSelect = new List<object>();
-            if (itemsToSelect != null) itemsToSelect.Add(itemToSelect);
+            itemsToSelect.Add(itemToSelect);
 
             if (itemsToUnselect == null) itemsToUnselect = new List<object>();
 
@@ -89,7 +89,7 @@
             if (itemsToSelect == null) itemsToSelect = new List<object>();
 
             List<object> itemsToUnselect = new List<object>();
-            if (itemToUnselect != null) itemsToUnselect.Add(itemToUnselect);
+            itemsToUnselect.Add(itemToUnselect);
 
             return ModifySelection(itemsToSelect, itemsToUnselect);
         }
