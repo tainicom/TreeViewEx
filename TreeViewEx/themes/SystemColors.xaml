@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:tvx="clr-namespace:tainicom.TreeViewEx">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/TreeViewEx;component/themes/TreeViewExItem.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type tvx:TreeViewExItem}" BasedOn="{StaticResource TreeViewExBaseStyle}">
+
+        <Setter Property="BorderBrushFocusedSelected" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+        <Setter Property="BackgroundFocusedSelected"  Value="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" />
+
+        <Setter Property="BorderBrushSelectedHovered" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+        <Setter Property="BackgroundSelectedHovered" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+
+        <Setter Property="BorderBrushFocused"  Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+        <Setter Property="BackgroundFocused"   Value="Transparent" />
+
+        <Setter Property="BorderBrushSelected" Value="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" />
+        <Setter Property="BackgroundSelected"  Value="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}"  />
+
+        <Setter Property="BorderBrushHovered"  Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+        <Setter Property="BackgroundHovered"   Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+
+        <Setter Property="BorderBrushInactive" Value="{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}" />
+        <Setter Property="BackgroundInactive"  Value="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}" />
+        
+    </Style>
+    
+</ResourceDictionary>

@@ -107,18 +107,6 @@
     <Compile Include="Controls\SelectionSingle.cs" />
     <Compile Include="Controls\TreeViewExItem.cs" />
     <Compile Include="Controls\TreeViewEx.cs" />
-    <Page Include="themes\Aero.NormalColor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="themes\Classic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="themes\Luna.NormalColor.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="themes\EditTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -126,6 +114,10 @@
     <Page Include="themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="themes\SystemColors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="themes\TreeViewEx.xaml">
       <Generator>MSBuild:Compile</Generator>

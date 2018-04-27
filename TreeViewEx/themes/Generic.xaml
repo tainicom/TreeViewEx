@@ -4,6 +4,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/TreeViewEx;component/themes/EditTextBox.xaml" />
         <ResourceDictionary Source="/TreeViewEx;component/themes/TreeViewEx.xaml" />
-        <ResourceDictionary Source="/TreeViewEx;component/themes/Aero.NormalColor.xaml" />
+        <ResourceDictionary Source="/TreeViewEx;component/themes/SystemColors.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

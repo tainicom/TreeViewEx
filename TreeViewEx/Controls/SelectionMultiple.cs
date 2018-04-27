@@ -291,16 +291,16 @@
             {
                 // Get the first item in the SelectedItems that is also bound to the Tree.
                 firstSelectedItem = treeViewEx.SelectedItems.Cast<object>().FirstOrDefault((x) => { return treeViewEx.GetTreeViewItemFor(x) != null; });
-                }
+            }
 
             if (firstSelectedItem != null)
-                {
-            TreeViewExItem shiftRootItem = treeViewEx.GetTreeViewItemsFor(new List<object> { firstSelectedItem }).First();
+            {
+                TreeViewExItem shiftRootItem = treeViewEx.GetTreeViewItemsFor(new List<object> { firstSelectedItem }).First();
 
-            List<object> itemsToSelect = treeViewEx.GetNodesToSelectBetween(shiftRootItem, item).Select(x => x.DataContext).ToList();
-            List<object> itemsToUnSelect = treeViewEx.SelectedItems.Cast<object>().ToList();
+                List<object> itemsToSelect = treeViewEx.GetNodesToSelectBetween(shiftRootItem, item).Select(x => x.DataContext).ToList();
+                List<object> itemsToUnSelect = treeViewEx.SelectedItems.Cast<object>().ToList();
 
-            ModifySelection(itemsToSelect, itemsToUnSelect);
+                ModifySelection(itemsToSelect, itemsToUnSelect);
             }
             else
             {   // Fall-back to sigle selection
