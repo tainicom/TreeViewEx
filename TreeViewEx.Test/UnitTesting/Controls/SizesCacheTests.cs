@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls;
-using FluentAssertions;
 using tainicom.TreeViewEx;
 
 namespace TreeViewEx.Test.Model.UnitTesting.Controls.SizesCacheTests
@@ -70,7 +69,7 @@ namespace TreeViewEx.Test.Model.UnitTesting.Controls.SizesCacheTests
         public void CleanUpEmptyCache()
         {
             var target = new SizesCache();
-            target.Invoking(x => x.CleanUp(0)).ShouldNotThrow();
+            target.CleanUp(0); // ShouldNotThrow
         }
 
         [TestMethod]
